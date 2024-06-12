@@ -1,10 +1,8 @@
-IMAGE_TAG=golang:1.15
 NAME=lenia
 
 .PHONY: build
 build: .env
-	@docker run --rm -t --env-file .env -v "${PWD}":/usr/src/app -w /usr/src/app ${IMAGE_TAG} \
-		go build -v -o ./bin/${NAME} ./cmd/${NAME}
+	@go build -v -tags x11 -buildvcs=false -o ./bin/${NAME} ./cmd/${NAME}
 
 .PHONY: watch
 watch:

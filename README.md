@@ -4,7 +4,6 @@ Lenia, a continuous cellular automata, implemented as a screensaver for X with G
 
 ## Requirements
 
- - Docker
  - inotify-tools (optional)
 
 ## How to dev
