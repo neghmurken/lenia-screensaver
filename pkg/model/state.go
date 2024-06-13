@@ -31,7 +31,7 @@ func (s *State) Update(dt float32) {
 	next := make([]float32, s.Grid.Size())
 	for i, v := range s.Cells {
 		x, y := s.Grid.i2xy(int32(i))
-		growth := s.ApplyMask(CreateMask(s.Grid, x, y, MASK_RADIUS))
+		growth := s.Convolve(CreateMask(s.Grid, x, y, MASK_RADIUS))
 		next[i] = rl.Clamp(v+(growth*dt*0.1), 0, 1)
 	}
 
@@ -46,7 +46,7 @@ func (s *State) AllCells() []float32 {
 	return s.Cells
 }
 
-func (s *State) ApplyMask(mask Mask) float32 {
+func (s *State) Convolve(mask Mask) float32 {
 	applied := make([]float32, mask.Size())
 	for i, v := range mask {
 		applied = append(applied, s.Cells[i]*v)
