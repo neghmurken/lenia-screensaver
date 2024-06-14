@@ -11,16 +11,18 @@ import (
 
 func main() {
 	rl.InitWindow(0, 0, "Lenia")
+	rl.SetConfigFlags(rl.FlagVsyncHint)
 	defer rl.CloseWindow()
 
-	rl.ToggleFullscreen()
+	//rl.ToggleFullscreen()
+	state := m.NewState(800, 800)
 
-	state := m.NewState(400, 400)
-	state.InitRandom()
+	state.InitMask(400, 400, 400)
+
 	canvas := r.NewCanvas(state)
 	defer canvas.Unload()
 
-	rl.SetTargetFPS(20)
+	rl.SetTargetFPS(60)
 
 	shouldExit := false
 

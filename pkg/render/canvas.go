@@ -20,8 +20,8 @@ type Canvas struct {
 
 func NewCanvas(state *m.State) *Canvas {
 	image := rl.GenImageColor(
-		int(state.Grid.Width()),
-		int(state.Grid.Height()),
+		int(state.Grid.W),
+		int(state.Grid.H),
 		rl.Black,
 	)
 	defer rl.UnloadImage(image)
@@ -49,8 +49,8 @@ func (c *Canvas) Render(state *m.State) {
 	rl.ClearBackground(rl.Black)
 	rl.DrawTexture(
 		c.tex,
-		int32((rl.GetScreenWidth()-int(state.Grid.Width()))/2),
-		int32((rl.GetScreenHeight()-int(state.Grid.Height()))/2),
+		int32((rl.GetScreenWidth()-int(state.Grid.W))/2),
+		int32((rl.GetScreenHeight()-int(state.Grid.H))/2),
 		rl.White,
 	)
 	rl.DrawFPS(0, 0)
