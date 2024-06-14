@@ -10,8 +10,8 @@ import (
 
 var (
 	Gradient0 color.RGBA = color.RGBA{0, 0, 0, 255}
-	Gradient1 color.RGBA = color.RGBA{255, 0, 146, 255}
-	Gradient2 color.RGBA = color.RGBA{255, 255, 0, 255}
+	Gradient1 color.RGBA = color.RGBA{0, 112, 255, 255}
+	Gradient2 color.RGBA = color.RGBA{255, 0, 61, 255}
 )
 
 type Canvas struct {
@@ -20,8 +20,8 @@ type Canvas struct {
 
 func NewCanvas(state *m.State) *Canvas {
 	image := rl.GenImageColor(
-		int(state.Grid.Width()),
-		int(state.Grid.Height()),
+		int(state.Grid.W),
+		int(state.Grid.H),
 		rl.Black,
 	)
 	defer rl.UnloadImage(image)
@@ -47,10 +47,11 @@ func (c *Canvas) Render(state *m.State) {
 
 	rl.BeginDrawing()
 	rl.ClearBackground(rl.Black)
-	rl.DrawTexture(
+	rl.DrawTextureEx(
 		c.tex,
-		int32((rl.GetScreenWidth()-int(state.Grid.Width()))/2),
-		int32((rl.GetScreenHeight()-int(state.Grid.Height()))/2),
+		rl.Vector2Zero(),
+		0,
+		8,
 		rl.White,
 	)
 	rl.DrawFPS(0, 0)
