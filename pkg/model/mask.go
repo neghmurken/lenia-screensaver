@@ -4,30 +4,37 @@ import (
 	"math"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
-	"github.com/neghmurken/lenia-screensaver/pkg/utils"
 )
 
-type Mask map[int32]float32
+type Mask struct {
+	Mask   map[int32]float32
+	Grid   Grid
+	radius int32
+}
 
-func CreateMask(grid *Grid, x int32, y int32, r int32) Mask {
-	mask := make(Mask, int(math.Pow(float64(r*2), 2)))
+func CreateMask(r int32) *Mask {
+	d := r*2 + 1
+	grid := Grid{d, d}
+	mask := make(map[int32]float32, int(math.Pow(float64(d), 2)))
 
-	for i := -r; i < r; i++ {
-		for j := -r; j < r; j++ {
+	for i := int32(0); i < d; i++ {
+		for j := int32(0); j < d; j++ {
 			length := rl.Normalize(
-				float32(math.Sqrt(math.Pow(float64(i), 2)+math.Pow(float64(j), 2))),
+				float32(math.Sqrt(math.Pow(float64(i-r), 2)+math.Pow(float64(j-r), 2))),
 				0,
 				float32(r),
 			)
 			if length <= 1 {
-				mask[grid.xy2i(i+x, j+y)] = utils.SquareDistribution(length)
+				mask[grid.XY2I(i, j)] = 1 //utils.QuadBell(length)
 			}
 		}
 	}
 
-	return mask
-}
+	mask[grid.XY2I(r+1, r+1)] = 0.0
 
-func (m *Mask) Size() int {
-	return len(*m)
+	return &Mask{
+		Mask:   mask,
+		Grid:   grid,
+		radius: r,
+	}
 }

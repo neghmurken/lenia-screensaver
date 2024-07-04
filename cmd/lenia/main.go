@@ -11,16 +11,20 @@ import (
 
 func main() {
 	rl.InitWindow(0, 0, "Lenia")
+	rl.SetConfigFlags(rl.FlagVsyncHint)
 	defer rl.CloseWindow()
 
 	rl.ToggleFullscreen()
+	state := m.NewState(int32(rl.GetScreenWidth()/8), int32(rl.GetScreenHeight()/8))
 
-	state := m.NewState(400, 400)
 	state.InitRandom()
+	state.InitMask(rl.GetRandomValue(0, state.Grid.W), rl.GetRandomValue(0, state.Grid.H), m.MASK_RADIUS+12)
+	state.InitMask(rl.GetRandomValue(0, state.Grid.W), rl.GetRandomValue(0, state.Grid.H), m.MASK_RADIUS+6)
+
 	canvas := r.NewCanvas(state)
 	defer canvas.Unload()
 
-	rl.SetTargetFPS(20)
+	rl.SetTargetFPS(60)
 
 	shouldExit := false
 
